@@ -1,0 +1,22 @@
+{
+	admin localhost:2999
+	http_port 9080
+	https_port 9443
+	grace_period 1ns
+	metrics
+}
+
+localhost:9080 {
+	route_metrics {
+		header X-Route-Pattern
+	}
+	handle_path /ok* {
+		header {
+			X-Route-Pattern "/users/{id}"
+		}
+		respond "hello from /ok" 200
+	}
+	handle_path /miss* {
+		respond "hello from /miss" 200
+	}
+}
