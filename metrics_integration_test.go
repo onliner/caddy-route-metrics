@@ -10,6 +10,7 @@ import (
 	"github.com/caddyserver/caddy/v2/caddytest"
 	dto "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/expfmt"
+	"github.com/prometheus/common/model"
 )
 
 func TestRespond(t *testing.T) {
@@ -63,7 +64,7 @@ func TestRespond(t *testing.T) {
 }
 
 func parseMF(body io.ReadCloser) (map[string]*dto.MetricFamily, error) {
-	var parser expfmt.TextParser
+	parser := expfmt.NewTextParser(model.UTF8Validation)
 	mf, err := parser.TextToMetricFamilies(body)
 	if err != nil {
 		return nil, err
